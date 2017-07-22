@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.ResourceBundleViewResolver;
 @Configurable
 @EnableWebMvc
 @ComponentScan(basePackages = "cm.study.gravitation.open")
-public class WebConfig /*extends WebMvcConfigurerAdapter*/{
+public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -25,21 +25,21 @@ public class WebConfig /*extends WebMvcConfigurerAdapter*/{
         return viewResolver;
     }
 
-//    @Override
-//    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-////        super.configureDefaultServletHandling(configurer);
-//        configurer.enable();
-//    }
-//
-//    /**
-//     * 静态资源映射
-//     * @param registry
-//     */
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/html/**").addResourceLocations("/html");
-//        registry.addResourceHandler("/resources/**").addResourceLocations("/resources");
-//    }
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+//        super.configureDefaultServletHandling(configurer);
+        configurer.enable();
+    }
+
+    /**
+     * 静态资源映射
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/html/**").addResourceLocations("/html/");
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
 
 
 }

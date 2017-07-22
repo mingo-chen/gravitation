@@ -15,7 +15,7 @@ import java.util.concurrent.*;
 /**
  * Created by chenming on 2017/7/21.
  */
-//@WebServlet(name = "loginServlet", urlPatterns = "/login2", asyncSupported = true)
+@WebServlet(name = "loginServlet", urlPatterns = "/login2", asyncSupported = true)
 public class LoginServlet extends HttpServlet {
 
     private static Logger ILOG = LoggerFactory.getLogger(LoginServlet.class);
@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet {
         System.out.println("--> servlet3 login...");
 //        request.getRequestDispatcher(loginJsp).forward(request, response);
 
-//        response.setContentType("text/plain;charset=UTF-8");
         response.setContentType("text/html;charset=GBK");
         response.setHeader("Cache-Control","private");
         response.setHeader("Pragma","no-cache");
@@ -44,73 +43,12 @@ public class LoginServlet extends HttpServlet {
         writer.println("老师布置作业:" + System.currentTimeMillis() + "<br/>");
         writer.flush();
 
-//        request.setCharacterEncoding("GBK");
-//        response.setContentType("text/html;charset=GBK");
-//        PrintWriter out = response.getWriter();
-//        out.println("<html>");
-//        out.println("<body>");
-//        out.println("====页面加载开始====<hr />");
-//        AsyncContext actx = request.startAsync();
-//        actx.setTimeout(30 * 3000);
-////        actx.start(new MyThread(actx));
-//        asyncWorkMain(actx);
-//        out.println("====页面加载结束====<hr />");
-//        out.println("</body>");
-//        out.println("</html>");
-//        out.flush();
     }
 
-    static class Work implements ServletContextListener {
-
-        private static final BlockingQueue<AsyncContext> queue = new LinkedBlockingQueue<AsyncContext>();
-
-        private volatile Thread thread;
-
-        public static void add(AsyncContext asyncContext) {
-            queue.add(asyncContext);
-        }
-
-        @Override
-        public void contextInitialized(ServletContextEvent sce) {
-            thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (true) {
-                        try {
-                            Thread.sleep(2000);
-                            AsyncContext context;
-                            while ((context = queue.poll()) != null) {
-                                try {
-                                    ServletResponse response = context.getResponse();
-                                    response.setContentType("text/plain");
-                                    PrintWriter out = response.getWriter();
-                                    out.printf("Thread %s completed the task", Thread.currentThread().getName());
-                                    out.flush();
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e.getMessage(), e);
-                                } finally {
-                                    context.complete();
-                                }
-                            }
-                        } catch (Exception e) {
-                            ILOG.error("error:", e);
-                        }
-                    }
-                }
-            });
-
-            thread.start();
-        }
-
-        @Override
-        public void contextDestroyed(ServletContextEvent sce) {
-            thread.interrupt();
-        }
-    }
-
-    ExecutorService executorService = Executors.newFixedThreadPool(8);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(8);
 
     private void asyncWorkMain(AsyncContext asyncContext) {
+
         asyncContext.start(() -> {
                 try {
 
