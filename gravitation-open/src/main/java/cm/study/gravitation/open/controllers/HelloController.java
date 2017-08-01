@@ -1,5 +1,9 @@
 package cm.study.gravitation.open.controllers;
 
+import akka.actor.ActorRef;
+import cm.study.gravitation.utils.ContextHolder;
+import cm.study.gravitation.utils.SpringActorProducer;
+import cm.study.gravitation.utils.SpringExt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -14,6 +18,8 @@ public class HelloController {
 
     @RequestMapping("/geeting")
     public void getting(@RequestParam(value = "content", defaultValue = "servlet3") String content) {
+        ActorRef helloActor = ContextHolder.build("helloWorldActor");
+        helloActor.tell("hello, akka! from Spring", null);
         System.out.println("--> " + content);
     }
 
