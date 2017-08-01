@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.ResourceBundleViewResolver;
  */
 @Configurable
 @EnableWebMvc
-@ComponentScan(basePackages = "cm.study.gravitation.open")
+@ComponentScan(basePackages = "cm.study.gravitation")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
